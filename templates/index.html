@@ -1,0 +1,2057 @@
+{% extends "base.html" %}
+
+{% block title %}Salem Heritage - Discover Tamil Nadu's Rich History{% endblock %}
+
+{% block additional_styles %}
+<style>
+        :root {
+            --primary: #1a73e8;
+            --primary-dark: #0d47a1;
+            --secondary: #ff7043;
+            --light: #f8f9fa;
+            --dark: #333;
+            --shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            --card-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+            --hover-shadow: 0 12px 24px rgba(0, 0, 0, 0.2);
+        }
+        
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background: var(--light);
+            color: var(--dark);
+            line-height: 1.6;
+            transition: background-color 0.3s, color 0.3s;
+        }
+        
+        .navbar {
+            background-color: #fff;
+            box-shadow: var(--shadow);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: background-color 0.3s;
+        }
+        
+        .theme-dark .navbar {
+            background-color: #1e1e1e;
+        }
+        
+        .navbar-brand {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: var(--primary);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+        }
+        
+        .navbar-brand i {
+            margin-right: 10px;
+        }
+        
+        .navbar-links {
+            display: flex;
+            list-style: none;
+        }
+        
+        .navbar-links li {
+            margin-left: 1.5rem;
+        }
+        
+        .navbar-links a {
+            text-decoration: none;
+            color: var(--dark);
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+        
+        .navbar-links a:hover {
+            color: var(--primary);
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        .header {
+            background: linear-gradient(to right, var(--primary), var(--primary-dark));
+            color: white;
+            border-radius: 10px;
+            padding: 2rem;
+            margin: 2rem 0;
+            box-shadow: var(--shadow);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+        }
+        
+        .header h1 {
+            margin-bottom: 1rem;
+            font-size: 2.5rem;
+        }
+        
+        .header p {
+            font-size: 1.1rem;
+            margin-bottom: 1.5rem;
+            max-width: 600px;
+        }
+        
+        .location {
+            font-weight: bold;
+            font-size: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(255, 255, 255, 0.2);
+            padding: 0.5rem 1rem;
+            border-radius: 30px;
+            backdrop-filter: blur(5px);
+        }
+        
+        .location i {
+            margin-right: 8px;
+        }
+        
+        .action-buttons {
+            margin: 2rem 0;
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+        
+        .btn {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 30px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .btn-primary {
+            background: var(--primary);
+            color: white;
+            box-shadow: 0 4px 14px rgba(0, 123, 255, 0.4);
+        }
+        
+        .btn-primary:hover {
+            background: var(--primary-dark);
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(0, 123, 255, 0.5);
+        }
+        
+        .btn i {
+            margin-right: 8px;
+        }
+        
+        #places-list {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 30px;
+            margin: 3rem 0;
+        }
+        
+        .place-card {
+            display: flex;
+            flex-direction: column;
+            width: 350px;
+            background: white;
+            box-shadow: var(--card-shadow);
+            border-radius: 16px;
+            overflow: hidden;
+            transition: transform 0.4s ease, box-shadow 0.4s ease;
+        }
+        
+        .place-card:hover {
+            transform: translateY(-10px);
+            box-shadow: var(--hover-shadow);
+        }
+        
+        .place-card-content {
+            padding: 1.5rem;
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+        }
+        
+        .place-card h3 {
+            color: var(--primary-dark);
+            margin-bottom: 1rem;
+            font-size: 1.4rem;
+        }
+        
+        .slideshow-container {
+            position: relative;
+            width: 100%;
+            height: 220px;
+            overflow: hidden;
+        }
+        
+        .slide {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            display: none;
+        }
+        
+        .slide img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+        
+        .place-card:hover .slide img {
+            transform: scale(1.05);
+        }
+        
+        .fade {
+            animation: fadeEffect 1.5s ease-in-out;
+        }
+        
+        @keyframes fadeEffect {
+            from { opacity: 0.4; }
+            to { opacity: 1; }
+        }
+        
+        .description {
+            min-height: 80px;
+            line-height: 1.6;
+            margin: 1rem 0;
+            color: #555;
+            flex-grow: 1;
+        }
+        
+        .card-actions {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-top: 1rem;
+        }
+        
+        .lang-container {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+        
+        select {
+            padding: 10px;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            flex-grow: 1;
+            background-color: #f5f5f5;
+            color: var(--dark);
+            cursor: pointer;
+        }
+        
+        .view-details {
+            font-weight: 600;
+            color: var(--primary);
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            transition: all 0.3s;
+            padding: 10px 0;
+        }
+        
+        .view-details:hover {
+            color: var(--primary-dark);
+            transform: translateX(5px);
+        }
+        
+        .view-details i {
+            margin-right: 8px;
+        }
+        
+        #nearby-places {
+            display: none;
+            margin: 2rem auto;
+            text-align: left;
+            max-width: 800px;
+            padding: 2rem;
+            background: #ffffff;
+            box-shadow: var (--shadow);
+            border-radius: 16px;
+            transition: all 0.3s ease;
+        }
+        
+        #nearby-places h3 {
+            color: var(--primary);
+            font-size: 1.5rem;
+            margin-bottom: 1.5rem;
+            border-bottom: 2px solid #f0f0f0;
+            padding-bottom: 10px;
+        }
+        
+        .nearby-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 15px;
+        }
+        
+        .nearby-item {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 10px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+        }
+        
+        .nearby-item:hover {
+            background: #f0f4f8;
+            transform: translateY(-3px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+        
+        .nearby-item a {
+            text-decoration: none;
+            color: var(--primary);
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            width: 100%;
+        }
+        
+        .nearby-item i {
+            margin-right: 10px;
+            color: var(--secondary);
+            font-size: 1.2rem;
+        }
+        
+        .back-to-top {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: var(--primary);
+            color: white;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s;
+            box-shadow: 0 4px 14px rgba(0, 123, 255, 0.5);
+            z-index: 99;
+        }
+        
+        .back-to-top.show {
+            opacity: 1;
+            visibility: visible;
+        }
+        
+        .back-to-top:hover {
+            background: var(--primary-dark);
+            transform: translateY(-3px);
+        }
+        
+        footer {
+            background: #2d3748;
+            color: white;
+            padding: 3rem 0;
+            margin-top: 4rem;
+        }
+        
+        .footer-content {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        .footer-section {
+            flex: 1;
+            min-width: 250px;
+            margin-bottom: 2rem;
+            padding: 0 15px;
+        }
+        
+        .footer-section h3 {
+            margin-bottom: 1.5rem;
+            font-size: 1.3rem;
+            position: relative;
+            padding-bottom: 10px;
+        }
+        
+        .footer-section h3::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 50px;
+            height: 2px;
+            background: var(--secondary);
+        }
+        
+        .footer-section p,
+        .footer-section a {
+            color: #cbd5e0;
+            margin: 10px 0;
+            display: block;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        
+        .footer-section a:hover {
+            color: white;
+            transform: translateX(5px);
+        }
+        
+        .footer-section i {
+            margin-right: 10px;
+            color: var(--secondary);
+        }
+        
+        .social-links {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+        }
+        
+        .social-links a {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            transition: all 0.3s;
+        }
+        
+        .social-links a:hover {
+            background: var(--secondary);
+            transform: translateY(-5px);
+        }
+        
+        .footer-bottom {
+            text-align: center;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            max-width: 1200px;
+            margin: 0 auto;
+            margin-top: 2rem;
+            color: #a0aec0;
+            font-size: 0.9rem;
+        }
+        
+        /* Responsive styles */
+        @media (max-width: 768px) {
+            .navbar {
+                flex-direction: column;
+                padding: 1rem;
+            }
+            
+            .navbar-brand {
+                margin-bottom: 1rem;
+            }
+            
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            .action-buttons {
+                flex-direction: column;
+                width: 100%;
+            }
+            
+            .btn {
+                width: 100%;
+            }
+            
+            .place-card {
+                width: 100%;
+            }
+            
+            .nearby-list {
+                grid-template-columns: 1fr;
+            }
+            
+            .footer-content {
+                flex-direction: column;
+            }
+            
+            .back-to-top {
+                bottom: 20px;
+                right: 20px;
+                width: 40px;
+                height: 40px;
+            }
+        }
+        
+        /* Color Scheme Selector */
+        #color-scheme-selector {
+            position: fixed;
+            top: 100px;
+            right: 20px;
+            background: white;
+            padding: 15px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            z-index: 100;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        
+        .color-option {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            cursor: pointer;
+            border: 2px solid white;
+            transition: transform 0.3s, border 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .color-option:hover {
+            transform: scale(1.2);
+        }
+        
+        .color-option.active {
+            border: 2px solid #333;
+        }
+        
+        .color-option i {
+            color: white;
+            font-size: 1.2rem;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+        
+        .color-option.active i {
+            opacity: 1;
+        }
+        
+        /* Remove unused themes and keep only Purple and Dark */
+        
+        /* Purple Elegance Theme */
+        .theme-purple {
+            --primary: #6a1b9a;
+            --primary-dark: #4a148c;
+            --secondary: #26c6da;
+            --light: #f3e5f5;
+            --dark: #37474f;
+        }
+        
+        /* Dark Mode Theme */
+        .theme-dark {
+            --primary: #bb86fc;
+            --primary-dark: #3700b3;
+            --secondary: #03dac6;
+            --light: #121212;
+            --dark: #e0e0e0;
+        }
+        
+        /* Remove the duplicate :root block that appears after the themes */
+        
+        /* Theme-specific overrides for dark mode */
+        .theme-dark {
+            --shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+            --card-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+            --hover-shadow: 0 12px 24px rgba(0, 0, 0, 0.4);
+        }
+        
+        .theme-dark .navbar {
+            background-color: #1e1e1e;
+        }
+        
+        .theme-dark .navbar-links a {
+            color: #e0e0e0;
+        }
+        
+        .theme-dark .place-card, 
+        .theme-dark #nearby-places,
+        .theme-dark select,
+        .theme-dark #color-scheme-selector {
+            background: #1e1e1e;
+            color: #e0e0e0;
+        }
+        
+        .theme-dark .color-option.active {
+            border: 2px solid #bb86fc;
+        }
+        
+        .theme-dark .description {
+            color: #b0b0b0;
+        }
+        
+        .theme-dark footer {
+            background: #0a0a0a;
+        }
+        
+        .theme-dark .nearby-item {
+            background: #2d2d2d;
+        }
+        
+        .theme-dark .footer-section p,
+        .theme-dark .footer-section a {
+            color: #b0b0b0;
+        }
+
+        /* Chat Bot Styles */
+        .chatbot-container {
+            position: fixed;
+            bottom: 100px; /* Adjust container position to be above the toggle */
+            right: 30px;
+            width: 350px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 5px 25px rgba(0,0,0,0.2);
+            overflow: hidden;
+            z-index: 1000; /* Increased z-index to appear above navbar */
+            display: none;
+            transition: all 0.3s ease;
+        }
+        
+        .chatbot-header {
+            background: var(--primary);
+            color: white;
+            padding: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .chatbot-header h3 {
+            margin: 0;
+            font-size: 1.1rem;
+            display: flex;
+            align-items: center;
+        }
+        
+        .chatbot-header h3 i {
+            margin-right: 8px;
+        }
+        
+        .chatbot-close {
+            background: none;
+            border: none;
+            color: white;
+            cursor: pointer;
+            font-size: 1.2rem;
+        }
+        
+        .chat-messages {
+            padding: 15px;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+        
+        .chat-message {
+            margin-bottom: 15px;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .user-message {
+            align-items: flex-end;
+        }
+        
+        .bot-message {
+            align-items: flex-start;
+        }
+        
+        .message-bubble {
+            padding: 10px 15px;
+            border-radius: 18px;
+            max-width: 75%;
+            word-wrap: break-word;
+        }
+        
+        .user-message .message-bubble {
+            background: var(--primary);
+            color: white;
+            border-bottom-right-radius: 5px;
+        }
+        
+        .bot-message .message-bubble {
+            background: #f0f0f0;
+            color: var(--dark);
+            border-bottom-left-radius: 5px;
+        }
+        
+        .message-time {
+            font-size: 0.7rem;
+            color: #777;
+            margin-top: 5px;
+        }
+        
+        .chat-form {
+            display: flex;
+            padding: 10px;
+            border-top: 1px solid #eee;
+        }
+        
+        .chat-input {
+            flex-grow: 1;
+            padding: 10px 15px;
+            border: 1px solid #ddd;
+            border-radius: 20px;
+            font-size: 0.9rem;
+        }
+        
+        .chat-submit {
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            margin-left: 10px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background-color 0.3s;
+        }
+        
+        .chat-submit:hover {
+            background: var(--primary-dark);
+        }
+        
+        .chat-submit i {
+            font-size: 1rem;
+        }
+        
+        .chatbot-toggle {
+            position: fixed;
+            bottom: 30px; /* Position at bottom right corner */
+            right: 30px;
+            width: 60px;
+            height: 60px;
+            background: var(--primary);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 4px 14px rgba(106, 27, 154, 0.5);
+            z-index: 101; /* Keep z-index above navbar */
+            transition: all 0.3s;
+        }
+        
+        .chatbot-toggle:hover {
+            transform: scale(1.1);
+        }
+        
+        .chatbot-toggle i {
+            font-size: 1.5rem; /* Return to original size */
+        }
+        
+        /* Bot is typing indicator */
+        .typing-indicator {
+            display: flex;
+            align-items: center;
+            padding: 10px 15px;
+            margin-bottom: 15px;
+            border-radius: 18px;
+            border-bottom-left-radius: 5px;
+            background: #f0f0f0;
+            color: #777;
+            font-style: italic;
+            max-width: 75%;
+            align-self: flex-start;
+        }
+        
+        .typing-dots {
+            display: flex;
+            margin-left: 8px;
+        }
+        
+        .typing-dot {
+            height: 8px;
+            width: 8px;
+            border-radius: 50%;
+            background: #777;
+            margin-right: 4px;
+            animation: typingDot 1.4s infinite ease-in-out;
+        }
+        
+        .typing-dot:nth-child(1) {
+            animation-delay: 0s;
+        }
+        
+        .typing-dot:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+        
+        .typing-dot:nth-child(3) {
+            animation-delay: 0.4s;
+        }
+        
+        @keyframes typingDot {
+            0%, 60%, 100% { transform: translateY(0); }
+            30% { transform: translateY(-5px); }
+        }
+        
+        .theme-dark .typing-indicator {
+            background: #333;
+        }
+        
+        .theme-dark .typing-dot {
+            background: #aaa;
+        }
+        
+        /* Add new styles for enhanced chatbot */
+        .chat-message a {
+            color: var(--primary);
+            text-decoration: underline;
+        }
+        
+        .theme-dark .chat-message a {
+            color: var(--secondary);
+        }
+        
+        .chat-suggestions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            padding: 10px;
+            border-top: 1px solid #eee;
+        }
+        
+        .theme-dark .chat-suggestions {
+            border-top: 1px solid #333;
+        }
+        
+        .suggestion-chip {
+            background: #f0f0f0;
+            padding: 8px 12px;
+            border-radius: 16px;
+            font-size: 0.85rem;
+            cursor: pointer;
+            transition: all 0.2s;
+            border: none;
+            white-space: nowrap;
+        }
+        
+        .suggestion-chip:hover {
+            background: var(--primary);
+            color: white;
+        }
+        
+        .theme-dark .suggestion-chip {
+            background: #333;
+            color: #e0e0e0;
+        }
+        
+        .theme-dark .suggestion-chip:hover {
+            background: var(--primary);
+        }
+        
+        .chat-actions {
+            display: flex;
+            justify-content: space-between;
+            padding: 0 10px 10px;
+        }
+        
+        .clear-chat {
+            background: none;
+            border: none;
+            color: #777;
+            cursor: pointer;
+            font-size: 0.8rem;
+            padding: 5px;
+        }
+        
+        .clear-chat:hover {
+            color: #f44336;
+        }
+        
+        .theme-dark .clear-chat {
+            color: #aaa;
+        }
+        
+        .theme-dark .clear-chat:hover {
+            color: #ff5252;
+        }
+        
+        @media (max-width: 768px) {
+            .chatbot-toggle {
+                bottom: 30px; /* Position at bottom on mobile */
+                right: 30px;
+                width: 50px; /* Slightly larger on mobile for easier tapping */
+                height: 50px;
+            }
+            
+            .chatbot-container {
+                width: 90%; /* Make chatbot wider on mobile */
+                right: 5%;
+                left: auto; /* Remove left positioning */
+                bottom: 90px; /* Adjust for mobile */
+            }
+        }
+
+        /* Enhanced Color Schemes with Cultural Relevance - Keep only Nature and Dark */
+    
+        /* Green Nature Theme - Enhanced */
+        .theme-nature {
+            --primary: #388e3c;
+            --primary-dark: #1b5e20;
+            --secondary: #81c784;
+            --light: #f1f8f1;
+            --dark: #1b3e2e;
+            --accent: #ffb300;
+            --primary-rgb: 56, 142, 60;
+        }
+        
+        /* Dark Mode Theme - Enhanced with Nature elements */
+        .theme-dark {
+            --primary: #4CAF50;  /* Changed to green to match nature theme */
+            --primary-dark: #2E7D32;
+            --secondary: #81c784;  /* Using nature's secondary color */
+            --light: #121212;
+            --dark: #e0e0e0;
+            --accent: #ffb300;  /* Using nature's accent color */
+            --primary-rgb: 76, 175, 80;  /* RGB values for the new primary color */
+        }
+        
+        /* Theme-specific header styles for Dark with Nature influences */
+        .theme-dark .header {
+            background-image: 
+                linear-gradient(135deg, var(--primary), var(--primary-dark)),
+                url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.07'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+        }
+        
+        /* Enhanced Dark Mode Refinements with Nature influences */
+        .theme-dark .place-card {
+            background: #1e1e1e;
+            border: 1px solid rgba(129, 199, 132, 0.1);  /* Using nature secondary color with transparency */
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        }
+        
+        .theme-dark .place-card:hover {
+            box-shadow: 0 15px 30px rgba(76, 175, 80, 0.2);  /* Green glow on hover */
+        }
+        
+        .theme-dark .place-card h3::after {
+            background: var(--accent);  /* Using accent color for the underline */
+        }
+        
+        .theme-dark select {
+            background-color: #2d2d2d;
+            color: #e0e0e0;
+            border: 1px solid #4c4c4c;
+        }
+        
+        .theme-dark #nearby-places {
+            background: #1e1e1e;
+            border: 1px solid rgba(129, 199, 132, 0.1);
+        }
+        
+        .theme-dark .nearby-item {
+            background: #2d2d2d;
+            border-left: 3px solid var(--primary);  /* Add a colored border */
+        }
+        
+        .theme-dark .nearby-item:hover {
+            background: #333333;
+            border-left: 3px solid var(--accent);
+        }
+        
+        .theme-dark .suggestion-chip {
+            background: #2d2d2d;
+            border: 1px solid rgba(129, 199, 132, 0.2);
+        }
+        
+        .theme-dark .suggestion-chip:hover {
+            background: var(--primary);
+            color: #121212;  /* Dark text for better contrast on hover */
+        }
+        
+        .theme-dark .bot-message .message-bubble {
+            background: #2d2d2d;
+            border-left: 3px solid var(--secondary);
+        }
+        
+        .theme-dark .user-message .message-bubble {
+            background: var(--primary-dark);
+            border-right: 3px solid var(--accent);
+        }
+        
+        .theme-dark .chat-input {
+            background: #2d2d2d;
+            color: #e0e0e0;
+            border: 1px solid #4c4c4c;
+        }
+        
+        .theme-dark .chat-input:focus {
+            border: 1px solid var(--secondary);
+            outline: none;
+        }
+        
+        /* Color scheme selector visual enhancement for dark theme */
+        .theme-dark #color-scheme-selector {
+            background: #1e1e1e;
+            border: 1px solid rgba(129, 199, 132, 0.2);
+        }
+        
+        .theme-dark .color-option.active {
+            border: 2px solid var(--accent);
+        }
+        
+        /* Back to top button for dark theme */
+        .theme-dark .back-to-top {
+            background: var(--primary);
+            color: #121212;  /* Dark text for better contrast */
+        }
+        
+        .theme-dark .back-to-top:hover {
+            background: var(--accent);
+        }
+        
+        /* Chat toggle button for dark theme */
+        .theme-dark .chatbot-toggle {
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            color: #121212;  /* Dark text for better contrast */
+        }
+        
+        /* Header for chatbot in dark theme */
+        .theme-dark .chatbot-header {
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            color: #121212;  /* Dark text for better contrast */
+        }
+        
+        .theme-dark .typing-indicator {
+            background: #2d2d2d;
+            border-left: 3px solid var(--accent);
+        }
+        
+        /* Enhanced Background and Visual Effects */
+        body {
+            background: var(--light);
+            color: var(--dark);
+            line-height: 1.6;
+            transition: background-color 0.5s, color 0.5s;
+            background-image: linear-gradient(120deg, rgba(var(--primary-rgb), 0.03) 0%, rgba(var(--primary-rgb), 0) 100%);
+        }
+        
+        /* Enhanced Header with Gradient and Pattern */
+        .header {
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            background-image: 
+                linear-gradient(135deg, var(--primary), var(--primary-dark)),
+                url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M11 18c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm48 25c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm-43-7c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm63 31c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM34 90c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm56-76c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3z' fill='rgba(255,255,255,.1)' fill-rule='evenodd'/%3E%3C/svg%3E");
+            border-radius: 15px;
+            box-shadow: 0 15px 30px rgba(0,0,0,0.15);
+            animation: headerGlow 8s infinite alternate;
+        }
+        
+        @keyframes headerGlow {
+            0% {
+                box-shadow: 0 15px 30px rgba(0,0,0,0.15);
+            }
+            100% {
+                box-shadow: 0 15px 40px rgba(var(--primary-rgb), 0.4);
+            }
+        }
+        
+        /* Enhanced Place Cards with Theme Colors */
+        .place-card {
+            background: white;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.08);
+            border-radius: 18px;
+            border: 1px solid rgba(var(--primary-rgb), 0.05);
+        }
+        
+        .place-card:hover {
+            transform: translateY(-12px);
+            box-shadow: 0 20px 30px rgba(var(--primary-rgb), 0.15);
+        }
+        
+        .place-card h3 {
+            position: relative;
+            padding-bottom: 10px;
+        }
+        
+        .place-card h3::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 40px;
+            height: 3px;
+            background: var (--secondary);
+            border-radius: 3px;
+        }
+        
+        /* Enhanced Button Styling */
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            box-shadow: 0 6px 16px rgba(var(--primary-rgb), 0.3);
+        }
+        
+        .btn-primary:hover {
+            background: linear-gradient(135deg, var(--primary-dark), var(--primary));
+            box-shadow: 0 8px 20px rgba(var(--primary-rgb), 0.4);
+        }
+        
+        /* Location Animation */
+        .location i {
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.2);
+            }
+            100% {
+                transform: scale(1);
+            }
+        }
+        
+        /* Enhanced Chatbot Toggle Button */
+        .chatbot-toggle {
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            box-shadow: 0 8px 20px rgba(var(--primary-rgb), 0.4);
+        }
+        
+        .chatbot-toggle:hover {
+            transform: scale(1.1);
+            box-shadow: 0 10px 25px rgba(var(--primary-rgb), 0.5);
+        }
+        
+        /* Restored Color Scheme Selector With Better Design */
+        #color-scheme-selector {
+            position: fixed;
+            top: 100px;
+            right: 20px;
+            background: white;
+            padding: 12px;
+            border-radius: 50px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            z-index: 100;
+            display: flex;
+            flex-direction: row;
+            gap: 10px;
+        }
+        
+        .theme-dark #color-scheme-selector {
+            background: #2d2d2d;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+        }
+        
+        .color-option {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            cursor: pointer;
+            border: 2px solid transparent;
+            transition: transform 0.3s, border 0.3s;
+        }
+        
+        .color-option:hover {
+            transform: scale(1.2);
+        }
+        
+        .color-option.active {
+            border-color: white;
+            transform: scale(1.2);
+        }
+        
+        /* Keep only Nature and Dark color options */
+        .color-nature {
+            background: linear-gradient(135deg, #388e3c, #1b5e20);
+        }
+        
+        .color-dark {
+            background: linear-gradient(135deg, #424242, #212121);
+        }
+        
+        /* Dark Mode Refinements */
+        .theme-dark .place-card {
+            background: #2d2d2d;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        
+        .theme-dark select {
+            background-color: #333;
+            border: 1px solid #444;
+        }
+        
+        /* Theme-specific header styles for Nature */
+        .theme-nature .header {
+            background-image: 
+                linear-gradient(135deg, var(--primary), var(--primary-dark)),
+                url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.1'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+        }
+
+        /* Smooth Transition for Chatbot */
+        .chatbot-container {
+            transform: translateX(400px);
+            opacity: 0;
+            transition: transform 0.4s ease, opacity 0.4s ease;
+        }
+        
+        .chatbot-container.active {
+            transform: translateX(0);
+            opacity: 1;
+        }
+
+        /* Language Switcher for Index Page */
+        .translate-section {
+            text-align: center;
+            margin: 2rem 0;
+            padding: 1.5rem;
+            background: white;
+            border-radius: 12px;
+            box-shadow: var(--card-shadow);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .translate-section:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--hover-shadow);
+        }
+
+        .translate-section h2 {
+            color: var(--primary);
+            font-size: 1.5rem;
+            margin-bottom: 1.5rem;
+            border-bottom: 2px solid var(--light);
+            padding-bottom: 0.5rem;
+        }
+
+        .translate-section select {
+            padding: 10px 15px;
+            margin: 0 10px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            background-color: #f5f5f5;
+            color: var(--dark);
+            cursor: pointer;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .translate-section select:focus {
+            border-color: var(--primary);
+            outline: none;
+        }
+
+        .theme-dark .translate-section {
+            background: #1e1e1e;
+            border: 1px solid rgba(129, 199, 132, 0.1);
+        }
+
+        .theme-dark .translate-section h2 {
+            color: var(--primary);
+            border-bottom-color: #333;
+        }
+
+        .theme-dark .translate-section select {
+            background-color: #2d2d2d;
+            color: #e0e0e0;
+            border-color: #444;
+        }
+
+        .theme-dark .translate-section select:focus {
+            border-color: var(--secondary);
+            outline: none;
+        }
+        
+        /* Enhanced Dark Mode with Nature colors for language switcher */
+        .theme-dark .translate-section .btn-primary {
+            background: var(--primary);
+            color: #121212;
+            box-shadow: 0 8px 16px rgba(76, 175, 80, 0.3);
+        }
+        
+        .theme-dark .translate-section .btn-primary:hover {
+            background: var(--accent);
+            color: #121212;
+            transform: translateY(-5px);
+            box-shadow: 0 12px 24px rgba(255, 179, 0, 0.3);
+        }
+
+        /* End of language switcher styles */
+
+</style>
+{% endblock %}
+
+{% block content %}
+<!-- Color Scheme Selector (simplified for Nature and Dark only) -->
+<div id="color-scheme-selector">
+    <div class="color-option color-nature active" data-theme="nature"></div>
+    <div class="color-option color-dark" data-theme="dark"></div>
+</div>
+
+<div class="container">
+    <!-- Header Section -->
+    <div class="header">
+        <h1><i class="fas fa-map-marked-alt"></i> Discover Salem's Heritage</h1>
+        <p>Explore the rich culture, history, and natural beauty of Salem, Tamil Nadu</p>
+        <span id="user-location" class="location"><i class="fas fa-map-pin"></i> Fetching location...</span>
+    </div>
+
+    <!-- Action Buttons -->
+    <div class="action-buttons">
+        <button onclick="getNearbyPlaces()" class="btn btn-primary">
+            <i class="fas fa-map-marker-alt"></i> Show Nearby Places
+        </button>
+    </div>
+
+    <!-- Nearby Places Section (Initially Hidden) -->
+    <div id="nearby-places"></div>
+
+    <!-- Places List -->
+    <div id="places-list">
+        {% for place in places %}
+        <div class="place-card">
+            <div class="slideshow-container">
+                {% set main_images = place['Sub-Place Images'].split(', ')[:3] if place['Sub-Place Images'] else [] %}
+                {% for img in main_images %}
+                <div class="slide fade">
+                    <img src="{{ url_for('serve_updated_image', filename=img.split('/')[-1]) }}" alt="{{ place['Place Name'] }}">
+                </div>
+                {% endfor %}
+            </div>
+            <div class="place-card-content">
+                <h3>{{ place['Place Name'] }}</h3>
+                <p id="desc-{{ loop.index }}" class="description" data-original-text="{{ place['Short Description'] if 'Short Description' in place and place['Short Description'] else place['Description'][:100] }}">
+                    {{ place['Short Description'] if 'Short Description' in place and place['Short Description'] else place['Description'][:100] }}...
+                </p>
+                <div class="card-actions">
+                    <a href="{{ url_for('place_details', place_name=place['Place Name']|replace(' ', '_')) }}" class="view-details">
+                        <i class="fas fa-info-circle"></i> View Details
+                    </a>
+                    <!-- <div class="lang-container">
+                        <select class="lang-selector">
+                            <option value="ta">Tamil</option>
+                            <option value="ml">Malayalam</option>
+                            <option value="fr">French</option>
+                            <option value="ko">Korean</option>
+                            <option value="te">Telugu</option>
+                            <option value="kn">Kannada</option>
+                        </select>
+                        <button onclick="translateText({{ loop.index }})" class="btn btn-primary">
+                            <i class="fas fa-language"></i> Translate
+                        </button>
+                    </div> -->
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+<!-- Chatbot Button -->
+<div class="chatbot-toggle" id="chatbotToggle">
+    <i class="fas fa-gopuram"></i> <!-- Changed from fa-robot to fa-gopuram (Hindu temple icon) -->
+</div>
+
+<!-- Chatbot Container -->
+<div class="chatbot-container" id="chatbotContainer">
+    <div class="chatbot-header">
+        <h3><i class="fas fa-gopuram"></i> Heritage Guide</h3> <!-- Changed to match the button icon -->
+        <button class="chatbot-close" id="chatbotClose">
+            <i class="fas fa-times"></i>
+        </button>
+    </div>
+    <div class="chat-messages" id="chatMessages">
+        <!-- Messages will be added here dynamically -->
+        <div class="chat-message bot-message">
+            <div class="message-bubble">
+                Hello! I'm your Tamil Nadu Heritage Guide. Ask me anything about Tamil Nadu's culture, heritage sites, or travel tips!
+            </div>
+            <span class="message-time">Just now</span>
+        </div>
+    </div>
+    
+    <!-- Suggestion chips -->
+    <div class="chat-suggestions" id="chatSuggestions">
+        <button class="suggestion-chip">Top attractions in Salem</button>
+        <button class="suggestion-chip">Best time to visit</button>
+        <button class="suggestion-chip">Tamil Nadu festivals</button>
+        <button class="suggestion-chip">Local cuisine</button>
+        <button class="suggestion-chip">Transport options</button>
+    </div>
+    
+    <!-- Chat actions -->
+    <div class="chat-actions">
+        <button class="clear-chat" id="clearChat">Clear chat</button>
+    </div>
+    
+    <div class="chat-form">
+        <input type="text" class="chat-input" id="chatInput" placeholder="Type your message..." autocomplete="off">
+        <button class="chat-submit" id="chatSubmit">
+            <i class="fas fa-paper-plane"></i>
+        </button>
+    </div>
+</div>
+{% endblock %}
+
+{% block additional_scripts %}
+<script>
+        let userLat, userLon;
+
+        function fetchUserLocation() {
+            if (navigator.geolocation) {
+                navigator.geolocation.watchPosition(position => {
+                    userLat = position.coords.latitude;
+                    userLon = position.coords.longitude;
+                    getLocationName(userLat, userLon);
+                }, () => {
+                    document.getElementById("user-location").innerText = "Location access denied.";
+                });
+            } else {
+                document.getElementById("user-location").innerText = "Geolocation not supported.";
+            }
+        }
+
+        function getLocationName(lat, lon) {
+            fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lon}`)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.address) {
+                        let locality = data.address.suburb || data.address.neighbourhood || data.address.village || data.address.town || data.address.city || "";
+                        let district = data.address.county || "Salem";
+                        let state = data.address.state || "Tamil Nadu";
+                        let country = data.address.country || "India";
+
+                        let locationText = `${locality}, ${district}, ${state}, ${country}`.trim();
+                        document.getElementById("user-location").innerText = locationText;
+                    } else {
+                        document.getElementById("user-location").innerText = "Location not found.";
+                    }
+                })
+                .catch(() => {
+                    document.getElementById("user-location").innerText = "Error fetching location.";
+                });
+        }
+
+        function getNearbyPlaces() {
+            if (!userLat || !userLon) {
+                alert("Location not available. Please allow location access.");
+                return;
+            }
+
+            fetch('/nearby', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ latitude: userLat, longitude: userLon })
+            })
+            .then(response => response.json())
+            .then(data => {
+                let output = "<h3><i class='fas fa-map-marker-alt'></i> Nearby Places:</h3>";
+                output += "<div class='nearby-list'>";
+                
+                if (data.length === 0) {
+                    output += "<p>No nearby places found within the range.</p>";
+                } else {
+                    data.forEach(place => {
+                        output += `<div class="nearby-item">
+                                      <a href="https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(place.name)}" target="_blank">
+                                        <i class='fas fa-location-arrow'></i> ${place.name} - ${place.distance_km} km away
+                                      </a>
+                                    </div>`;
+                    });
+                }
+                
+                output += "</div>";
+                document.getElementById("nearby-places").innerHTML = output;
+                document.getElementById("nearby-places").style.display = "block";
+                
+                // Smooth scroll to the nearby places section
+                document.getElementById("nearby-places").scrollIntoView({ behavior: "smooth" });
+            });
+        }
+
+        function translateText(index) {
+            let descElement = document.getElementById("desc-" + index);
+            let text = descElement.dataset.originalText;
+            let lang = document.querySelectorAll(".lang-selector")[index - 1].value;
+
+            // Show loading indication
+            descElement.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Translating...';
+
+            fetch('/translate', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ text: text, language: lang })
+            })
+            .then(response => response.json())
+            .then(data => {
+                descElement.innerText = data.translated_text || "Translation error!";
+            })
+            .catch(error => {
+                descElement.innerText = "Translation failed. Please try again.";
+                console.error("Translation error:", error);
+            });
+        }
+
+        // Back to top button functionality
+        window.addEventListener('scroll', function() {
+            const backToTopButton = document.getElementById('backToTop');
+            if (window.scrollY > 300) {
+                backToTopButton.classList.add('show');
+            } else {
+                backToTopButton.classList.remove('show');
+            }
+        });
+
+        document.getElementById('backToTop').addEventListener('click', function() {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+
+        // Initialize location tracking and slideshows
+        fetchUserLocation();
+
+        document.addEventListener("DOMContentLoaded", function () {
+            let slideshows = document.querySelectorAll(".slideshow-container");
+
+            slideshows.forEach(slideshow => {
+                let slides = slideshow.querySelectorAll(".slide");
+                if (slides.length > 0) {
+                    let index = 0;
+
+                    function showNextSlide() {
+                        slides.forEach(slide => slide.style.display = "none");
+                        slides[index].style.display = "block";
+                        index = (index + 1) % slides.length;
+                    }
+
+                    showNextSlide();
+                    setInterval(showNextSlide, 4000); // Change every 4 seconds
+                }
+            });
+        });
+
+        // Initialize with nature theme
+        document.body.className = 'theme-nature';
+
+        // Chatbot functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            const chatbotToggle = document.getElementById('chatbotToggle');
+            const chatbotContainer = document.getElementById('chatbotContainer');
+            const chatbotClose = document.getElementById('chatbotClose');
+            const chatMessages = document.getElementById('chatMessages');
+            const chatInput = document.getElementById('chatInput');
+            const chatSubmit = document.getElementById('chatSubmit');
+            const chatSuggestions = document.getElementById('chatSuggestions');
+            const clearChat = document.getElementById('clearChat');
+            
+            // Make sure these elements exist before setting up event listeners
+            if (!chatbotToggle || !chatbotContainer || !chatbotClose || !chatMessages || !chatInput || !chatSubmit) {
+                console.error("Chatbot elements not found in the DOM");
+                return;
+            }
+            
+            console.log("Initializing chatbot...");
+            
+            // Store chat history and location
+            let chatHistory = [];
+            let userLocation = null;
+            
+            // Try to load chat history from local storage
+            try {
+                const savedHistory = localStorage.getItem('chatHistory');
+                if (savedHistory) {
+                    chatHistory = JSON.parse(savedHistory);
+                    
+                    // Render previous messages (limit to last 10)
+                    const messagesToShow = chatHistory.slice(-20);
+                    chatMessages.innerHTML = ''; // Clear default message
+                    
+                    // Keep track if we have at least one message
+                    let hasMessages = false;
+                    
+                    messagesToShow.forEach(msg => {
+                        if (msg.role === 'user' || msg.role === 'assistant') {
+                            const sender = msg.role === 'user' ? 'user' : 'bot';
+                            addMessageToChat(sender, msg.content, msg.timestamp || 'Earlier');
+                            hasMessages = true;
+                        }
+                    });
+                    
+                    // If no valid messages were found, restore default welcome message
+                    if (!hasMessages) {
+                        chatMessages.innerHTML = `
+                            <div class="chat-message bot-message">
+                                <div class="message-bubble">
+                                    Hello! I'm your Tamil Nadu Heritage Guide. Ask me anything about Tamil Nadu's culture, heritage sites, or travel tips!
+                                </div>
+                                <span class="message-time">Just now</span>
+                            </div>
+                        `;
+                    }
+                }
+            } catch (error) {
+                console.error("Error loading chat history:", error);
+                // Reset chat history if there was an error
+                chatHistory = [];
+            }
+            
+            // Improved location fetching with regular updates
+            function getUserLocation() {
+                if (navigator.geolocation) {
+                    // Try to get high accuracy location
+                    const options = {
+                        enableHighAccuracy: true,
+                        timeout: 10000,
+                        maximumAge: 0
+                    };
+                    
+                    navigator.geolocation.getCurrentPosition(
+                        position => {
+                            userLocation = {
+                                lat: position.coords.latitude,
+                                lon: position.coords.longitude,
+                                accuracy: position.coords.accuracy
+                            };
+                            console.log("User location obtained:", userLocation);
+                            
+                            // Store location in local storage for persistence
+                            localStorage.setItem('userLocationData', JSON.stringify(userLocation));
+                        }, 
+                        error => {
+                            console.log("Could not get user location:", error.message);
+                            // Try to retrieve from local storage as fallback
+                            const storedLocation = localStorage.getItem('userLocationData');
+                            if (storedLocation) {
+                                userLocation = JSON.parse(storedLocation);
+                                console.log("Retrieved stored location:", userLocation);
+                            }
+                        },
+                        options
+                    );
+                    
+                    // Also set up a watcher to keep location updated
+                    navigator.geolocation.watchPosition(
+                        position => {
+                            userLocation = {
+                                lat: position.coords.latitude,
+                                lon: position.coords.longitude,
+                                accuracy: position.coords.accuracy
+                            };
+                            console.log("User location updated:", userLocation);
+                            localStorage.setItem('userLocationData', JSON.stringify(userLocation));
+                        },
+                        error => {
+                            console.log("Location watch error:", error.message);
+                        },
+                        options
+                    );
+                }
+            }
+            
+            // Try to get location when the page loads
+            getUserLocation();
+            
+            // Also try to get the saved location from local storage
+            const storedLocation = localStorage.getItem('userLocationData');
+            if (storedLocation) {
+                userLocation = JSON.parse(storedLocation);
+                console.log("Retrieved initial stored location:", userLocation);
+            }
+            
+            // Refresh location on chatbot open
+            chatbotToggle.addEventListener('click', function() {
+                console.log("Toggling chatbot visibility");
+                chatbotContainer.style.display = chatbotContainer.style.display === 'block' ? 'none' : 'block';
+                if (chatbotContainer.style.display === 'block') {
+                    chatInput.focus();
+                    // Always try to refresh location when chatbot is opened
+                    getUserLocation();
+                }
+            });
+            
+            // Event listener for close button
+            chatbotClose.addEventListener('click', function() {
+                console.log("Close button clicked");
+                chatbotContainer.style.display = 'none';
+            });
+            
+            // Event listener for clearing chat
+            clearChat.addEventListener('click', function() {
+                if (confirm('Are you sure you want to clear the chat history?')) {
+                    chatHistory = [];
+                    localStorage.removeItem('chatHistory');
+                    chatMessages.innerHTML = `
+                        <div class="chat-message bot-message">
+                            <div class="message-bubble">
+                                Chat history cleared. How can I help you today?
+                            </div>
+                            <span class="message-time">Just now</span>
+                        </div>
+                    `;
+                }
+            });
+            
+            // Handle suggestion clicks
+            chatSuggestions.addEventListener('click', function(e) {
+                if (e.target.classList.contains('suggestion-chip')) {
+                    const suggestion = e.target.textContent;
+                    chatInput.value = suggestion;
+                    sendMessage();
+                }
+            });
+            
+            // Send message on button click
+            chatSubmit.addEventListener('click', function() {
+                console.log("Submit button clicked");
+                sendMessage();
+            });
+            
+            // Send message on Enter key
+            chatInput.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    console.log("Enter key pressed");
+                    sendMessage();
+                }
+            });
+            
+            function sendMessage() {
+                const message = chatInput.value.trim();
+                if (!message) {
+                    console.log("Empty message, not sending");
+                    return;
+                }
+                
+                console.log("Sending message: " + message);
+                
+                // Clear input
+                chatInput.value = '';
+                
+                // Get current time
+                const time = new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+                const timestamp = new Date().toISOString();
+                
+                // Add user message to chat
+                addMessageToChat('user', message, time);
+                
+                // Store user message in history
+                chatHistory.push({
+                    role: "user",
+                    content: message,
+                    timestamp: time
+                });
+                
+                // Save chat history to local storage
+                localStorage.setItem('chatHistory', JSON.stringify(chatHistory));
+                
+                // Show typing indicator
+                showTypingIndicator();
+                
+                // If user is asking about nearby places and we don't have location, ask for it
+                const isAskingNearby = /nearby|near me|close by|around here|in this area/i.test(message);
+                const isAskingHeritage = /heritage|monuments|temples|historical|tourist|places|sites|attractions/i.test(message);
+                
+                if (isAskingNearby && isAskingHeritage && !userLocation) {
+                    // Try to get location once more
+                    if (navigator.geolocation) {
+                        navigator.geolocation.getCurrentPosition(position => {
+                            userLocation = {
+                                lat: position.coords.latitude,
+                                lon: position.coords.longitude
+                            };
+                            console.log("User location obtained for nearby query:", userLocation);
+                            // Now send the message with location
+                            sendToAPI(message, time);
+                        }, error => {
+                            // If we can't get location, tell the user
+                            hideTypingIndicator();
+                            addMessageToChat('bot', "To provide information about nearby heritage places, I'll need access to your location. Please enable location services and try again.", time);
+                            
+                            // Store bot response in history
+                            chatHistory.push({
+                                role: "assistant",
+                                content: "To provide information about nearby heritage places, I'll need access to your location. Please enable location services and try again.",
+                                timestamp: time
+                            });
+                            localStorage.setItem('chatHistory', JSON.stringify(chatHistory));
+                        });
+                    } else {
+                        // Browser doesn't support geolocation
+                        hideTypingIndicator();
+                        const response = "I can't provide nearby place information because your browser doesn't support geolocation services.";
+                        addMessageToChat('bot', response, time);
+                        
+                        // Store bot response in history
+                        chatHistory.push({
+                            role: "assistant",
+                            content: response,
+                            timestamp: time
+                        });
+                        localStorage.setItem('chatHistory', JSON.stringify(chatHistory));
+                    }
+                } else {
+                    // Regular message processing
+                    sendToAPI(message, time);
+                }
+            }
+            
+            function sendToAPI(message, time) {
+                // Send to API and get response
+                console.log("Fetching response from server...");
+                fetch('/chatbot', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        message: message,
+                        history: chatHistory,
+                        location: userLocation
+                    }),
+                })
+                .then(response => {
+                    console.log("Response status:", response.status);
+                    return response.json();
+                })
+                .then(data => {
+                    console.log("Received data:", data);
+                    
+                    // Hide typing indicator
+                    hideTypingIndicator();
+                    
+                    // Check if response is defined, if not use a default message
+                    const responseText = data.response || "Sorry, I couldn't process your request.";
+                    const timestamp = data.timestamp || time;
+                    
+                    // Add bot response to chat with processed text to handle URLs and markdown syntax
+                    addMessageToChat('bot', formatResponse(responseText), timestamp);
+                    
+                    // Store bot response in history
+                    chatHistory.push({
+                        role: "assistant",
+                        content: responseText,
+                        timestamp: timestamp
+                    });
+                    
+                    // Save to localStorage
+                    localStorage.setItem('chatHistory', JSON.stringify(chatHistory));
+                    
+                    // Auto-scroll to bottom
+                    scrollToBottom();
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    
+                    // Hide typing indicator
+                    hideTypingIndicator();
+                    
+                    // Show error message
+                    const errorMessage = "Sorry, I'm having trouble connecting. Please try again later.";
+                    addMessageToChat('bot', errorMessage, time);
+                    
+                    // Store error in history
+                    chatHistory.push({
+                        role: "assistant",
+                        content: errorMessage,
+                        timestamp: time
+                    });
+                    localStorage.setItem('chatHistory', JSON.stringify(chatHistory));
+                });
+            }
+            
+            // Format response text to handle URLs and basic markdown
+            function formatResponse(text) {
+                // Convert URLs to clickable links
+                text = text.replace(/(https?:\/\/[^\s]+)/g, function(url) {
+                    return `<a href="${url}" target="_blank">${url}</a>`;
+                });
+                
+                // Convert ** bold ** to <strong>
+                text = text.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+                
+                // Convert * italic * to <em>
+                text = text.replace(/\*(.*?)\*/g, '<em>$1</em>');
+                
+                // Convert bullet points
+                text = text.replace(/^\s*[-*]\s(.+)$/gm, '• $1<br>');
+                
+                // Convert new lines to <br>
+                text = text.replace(/\n/g, '<br>');
+                
+                return text;
+            }
+            
+            function addMessageToChat(sender, message, time) {
+                console.log(`Adding ${sender} message to chat`);
+                const messageDiv = document.createElement('div');
+                messageDiv.className = `chat-message ${sender}-message`;
+                
+                messageDiv.innerHTML = `
+                    <div class="message-bubble">${message}</div>
+                    <span class="message-time">${time}</span>
+                `;
+                
+                chatMessages.appendChild(messageDiv);
+                scrollToBottom();
+            }
+            
+            function showTypingIndicator() {
+                console.log("Showing typing indicator");
+                const typingDiv = document.createElement('div');
+                typingDiv.className = 'typing-indicator';
+                typingDiv.id = 'typingIndicator';
+                typingDiv.innerHTML = `
+                    Heritage Guide is typing
+                    <span class="typing-dots">
+                        <span class="typing-dot"></span>
+                        <span class="typing-dot"></span>
+                        <span class="typing-dot"></span>
+                    </span>
+                `;
+                chatMessages.appendChild(typingDiv);
+                scrollToBottom();
+            }
+            
+            function hideTypingIndicator() {
+                console.log("Hiding typing indicator");
+                const typingIndicator = document.getElementById('typingIndicator');
+                if (typingIndicator) {
+                    typingIndicator.remove();
+                }
+            }
+            
+            function scrollToBottom() {
+                chatMessages.scrollTop = chatMessages.scrollHeight;
+            }
+            
+            // Add location-specific message in the welcome message
+            function updateWelcomeMessageWithLocation() {
+                if (userLocation) {
+                    const locationName = getLocationNameAsync(userLocation.lat, userLocation.lon);
+                    locationName.then(name => {
+                        const welcomeMessage = document.querySelector('.bot-message .message-bubble');
+                        if (welcomeMessage) {
+                            welcomeMessage.innerHTML = `Hello! I'm your Tamil Nadu Heritage Guide. I see you're near ${name}. Ask me anything about Tamil Nadu's culture, heritage sites, or travel tips!`;
+                        }
+                    });
+                }
+            }
+            
+            // Function to get location name asynchronously
+            async function getLocationNameAsync(lat, lon) {
+                try {
+                    const response = await fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lon}`);
+                    const data = await response.json();
+                    
+                    if (data.address) {
+                        let locality = data.address.suburb || data.address.neighbourhood || data.address.village || data.address.town || data.address.city || "";
+                        let district = data.address.county || "Salem";
+                        
+                        return locality ? `${locality}, ${district}` : district;
+                    } else {
+                        return "your current location";
+                    }
+                } catch (error) {
+                    console.error("Error getting location name:", error);
+                    return "your current location";
+                }
+            }
+            
+            // Try to update welcome message with location
+            setTimeout(() => {
+                if (userLocation) {
+                    updateWelcomeMessageWithLocation();
+                }
+            }, 2000);
+            
+            console.log("Chatbot initialization complete");
+        });
+
+        // Add theme selector functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            const colorOptions = document.querySelectorAll('.color-option');
+            
+            // Load saved theme from localStorage if available
+            const savedTheme = localStorage.getItem('preferredTheme');
+            if (savedTheme && (savedTheme === 'nature' || savedTheme === 'dark')) {
+                document.body.className = `theme-${savedTheme}`;
+                // Update active state
+                colorOptions.forEach(option => {
+                    option.classList.remove('active');
+                    if (option.dataset.theme === savedTheme) {
+                        option.classList.add('active');
+                    }
+                });
+            }
+            
+            colorOptions.forEach(option => {
+                option.addEventListener('click', function() {
+                    // Remove active class from all options
+                    colorOptions.forEach(opt => opt.classList.remove('active'));
+                    
+                    // Add active class to clicked option
+                    this.classList.add('active');
+                    
+                    // Apply theme
+                    const theme = this.dataset.theme;
+                    document.body.className = `theme-${theme}`;
+                    
+                    // Save preference
+                    localStorage.setItem('preferredTheme', theme);
+                });
+            });
+            
+            // Make chatbot container show/hide with smooth animation
+            const chatbotToggle = document.getElementById('chatbotToggle');
+            const chatbotContainer = document.getElementById('chatbotContainer');
+            const chatbotClose = document.getElementById('chatbotClose');
+            
+            if (chatbotToggle && chatbotContainer && chatbotClose) {
+                chatbotToggle.addEventListener('click', function() {
+                    chatbotContainer.style.display = 'block';
+                    // Use setTimeout to ensure display:block takes effect before adding active class
+                    setTimeout(() => {
+                        chatbotContainer.classList.add('active');
+                    }, 10);
+                });
+                
+                chatbotClose.addEventListener('click', function() {
+                    chatbotContainer.classList.remove('active');
+                    // Wait for animation to complete before hiding
+                    setTimeout(() => {
+                        chatbotContainer.style.display = 'none';
+                    }, 400);
+                });
+            }
+        });
+</script>
+{% endblock %}

@@ -1,0 +1,1519 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Explore Tamil Nadu Heritage</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #6a1b9a;
+            --primary-dark: #4a148c;
+            --secondary: #26c6da;
+            --light: #f3e5f5;
+            --dark: #37474f;
+            --shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            --card-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+            --hover-shadow: 0 12px 24px rgba(0, 0, 0, 0.2);
+        }
+        
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background: var(--light);
+            color: var(--dark);
+            line-height: 1.6;
+            transition: background-color 0.3s, color 0.3s;
+        }
+        
+        .navbar {
+            background-color: #fff;
+            box-shadow: var(--shadow);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: background-color 0.3s;
+        }
+        
+        .navbar-brand {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: var(--primary);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+        }
+        
+        .navbar-brand i {
+            margin-right: 10px;
+        }
+        
+        .navbar-links {
+            display: flex;
+            list-style: none;
+        }
+        
+        .navbar-links li {
+            margin-left: 1.5rem;
+        }
+        
+        .navbar-links a {
+            text-decoration: none;
+            color: var(--dark);
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+        
+        .navbar-links a:hover {
+            color: var(--primary);
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        .header {
+            background: linear-gradient(to right, var(--primary), var(--primary-dark));
+            color: white;
+            border-radius: 10px;
+            padding: 2rem;
+            margin: 2rem 0;
+            box-shadow: var(--shadow);
+            text-align: center;
+        }
+        
+        .header h1 {
+            margin-bottom: 1rem;
+            font-size: 2.5rem;
+        }
+        
+        .header p {
+            font-size: 1.1rem;
+            margin-bottom: 1.5rem;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        /* Filters and Search Section */
+        .filters-container {
+            background: white;
+            border-radius: 10px;
+            padding: 1.5rem;
+            margin: 2rem 0;
+            box-shadow: var(--shadow);
+        }
+        
+        .search-box {
+            display: flex;
+            margin-bottom: 1.5rem;
+        }
+        
+        .search-box input {
+            flex-grow: 1;
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            border-radius: 8px 0 0 8px;
+            font-size: 1rem;
+        }
+        
+        .search-box button {
+            padding: 12px 20px;
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 0 8px 8px 0;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+        
+        .search-box button:hover {
+            background: var(--primary-dark);
+        }
+        
+        .filter-options {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-bottom: 1rem;
+        }
+        
+        .filter-group {
+            flex: 1;
+            min-width: 200px;
+        }
+        
+        .filter-group h3 {
+            font-size: 1rem;
+            margin-bottom: 8px;
+            color: var(--primary);
+        }
+        
+        .filter-group select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 0.9rem;
+        }
+        
+        .filter-group .checkbox-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        
+        .filter-group .checkbox-item {
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+        }
+        
+        .filter-group .checkbox-item input {
+            margin-right: 5px;
+        }
+        
+        .filter-buttons {
+            display: flex;
+            gap: 10px;
+            margin-top: 1rem;
+        }
+        
+        .btn {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 30px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .btn-primary {
+            background: var(--primary);
+            color: white;
+            box-shadow: 0 4px 14px rgba(106, 27, 154, 0.4);
+        }
+        
+        .btn-primary:hover {
+            background: var(--primary-dark);
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(106, 27, 154, 0.5);
+        }
+        
+        .btn-secondary {
+            background: #f5f5f5;
+            color: var(--dark);
+        }
+        
+        .btn-secondary:hover {
+            background: #e0e0e0;
+        }
+        
+        .btn i {
+            margin-right: 8px;
+        }
+        
+        /* Places Grid */
+        #places-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 30px;
+            margin: 2rem 0;
+        }
+        
+        .place-card {
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: var(--card-shadow);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        
+        .place-card:hover {
+            transform: translateY(-10px);
+            box-shadow: var(--hover-shadow);
+        }
+        
+        .place-image {
+            height: 200px;
+            overflow: hidden;
+        }
+        
+        .place-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s;
+        }
+        
+        .place-card:hover .place-image img {
+            transform: scale(1.1);
+        }
+        
+        .place-details {
+            padding: 1.5rem;
+        }
+        
+        .place-name {
+            font-size: 1.4rem;
+            color: var(--primary);
+            margin-bottom: 10px;
+        }
+        
+        .place-category {
+            display: inline-block;
+            background: var(--light);
+            color: var(--primary);
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            margin-bottom: 15px;
+        }
+        
+        .place-description {
+            margin-bottom: 15px;
+            color: #555;
+            height: 60px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+        }
+        
+        .place-link {
+            display: inline-block;
+            margin-top: 15px;
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 600;
+            transition: transform 0.3s;
+        }
+        
+        .place-link:hover {
+            transform: translateX(5px);
+        }
+        
+        .place-link i {
+            margin-left: 5px;
+        }
+        
+        /* Pagination */
+        .pagination {
+            display: flex;
+            justify-content: center;
+            margin: 2rem 0;
+        }
+        
+        .pagination .page-item {
+            margin: 0 5px;
+        }
+        
+        .pagination .page-link {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: white;
+            color: var(--primary);
+            text-decoration: none;
+            transition: all 0.3s;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        
+        .pagination .page-link:hover {
+            background: var(--light);
+        }
+        
+        .pagination .active .page-link {
+            background: var(--primary);
+            color: white;
+        }
+        
+        /* No Results Message */
+        .no-results {
+            text-align: center;
+            padding: 3rem;
+            background: white;
+            border-radius: 10px;
+            box-shadow: var(--shadow);
+            margin: 2rem 0;
+        }
+        
+        .no-results i {
+            font-size: 3rem;
+            color: var(--primary);
+            margin-bottom: 1rem;
+            display: block;
+        }
+        
+        .no-results h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: var(--primary);
+        }
+        
+        /* Back to Top Button */
+        .back-to-top {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: var(--primary);
+            color: white;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s;
+            box-shadow: 0 4px 14px rgba(106, 27, 154, 0.5);
+            z-index: 99;
+        }
+        
+        .back-to-top.show {
+            opacity: 1;
+            visibility: visible;
+        }
+        
+        .back-to-top:hover {
+            background: var(--primary-dark);
+            transform: translateY(-3px);
+        }
+        
+        /* Color Scheme Selector */
+        #color-scheme-selector {
+            position: fixed;
+            top: 100px;
+            right: 20px;
+            background: white;
+            padding: 15px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            z-index: 100;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        
+        .color-option {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            cursor: pointer;
+            border: 2px solid white;
+            transition: transform 0.3s, border 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .color-option:hover {
+            transform: scale(1.2);
+        }
+        
+        .color-option.active {
+            border: 2px solid #333;
+        }
+        
+        .color-option i {
+            color: white;
+            font-size: 1.2rem;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+        
+        .color-option.active i {
+            opacity: 1;
+        }
+        
+        /* Dark Mode Theme */
+        .theme-dark {
+            --primary: #4CAF50;  /* Changed to green to match nature theme */
+            --primary-dark: #2E7D32;
+            --secondary: #81c784;  /* Using nature's secondary color */
+            --light: #121212;
+            --dark: #e0e0e0;
+            --accent: #ffb300;  /* Using nature's accent color */
+            --primary-rgb: 76, 175, 80;  /* RGB values for the new primary color */
+            --shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+            --card-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+            --hover-shadow: 0 12px 24px rgba(0, 0, 0, 0.4);
+        }
+        
+        .theme-dark .navbar,
+        .theme-dark .filters-container,
+        .theme-dark .place-card,
+        .theme-dark .pagination .page-link,
+        .theme-dark .no-results,
+        .theme-dark #color-scheme-selector,
+        .theme-dark .tours-section,
+        .theme-dark .tour-card {
+            background-color: #1e1e1e;
+            color: #e0e0e0;
+            border: 1px solid rgba(129, 199, 132, 0.1);
+        }
+        
+        .theme-dark .navbar-links a {
+            color: #e0e0e0;
+        }
+        
+        .theme-dark .place-category,
+        .theme-dark .tour-badge {
+            background: #333;
+            color: var(--secondary);
+        }
+
+        .theme-dark .place-card:hover,
+        .theme-dark .tour-card:hover {
+            box-shadow: 0 15px 30px rgba(76, 175, 80, 0.2);
+        }
+
+        .theme-dark .place-link,
+        .theme-dark h2,
+        .theme-dark h3,
+        .theme-dark .tab.active {
+            color: var(--primary);
+        }
+
+        .theme-dark .tab {
+            color: #e0e0e0;
+            border-bottom-color: #333;
+        }
+
+        .theme-dark .tabs {
+            border-bottom-color: #333;
+        }
+
+        .theme-dark .back-to-top {
+            background: var(--primary);
+            color: #121212;
+        }
+
+        .theme-dark .back-to-top:hover {
+            background: var(--accent);
+        }
+
+        .theme-dark .tour-time {
+            color: #aaa;
+        }
+
+        .theme-dark .search-box input,
+        .theme-dark .filter-group select,
+        .theme-dark .form-control {
+            background: #2d2d2d;
+            color: #e0e0e0;
+            border: 1px solid #444;
+        }
+
+        .theme-dark .search-box input:focus,
+        .theme-dark .filter-group select:focus {
+            border-color: var(--secondary);
+            outline: none;
+        }
+
+        .theme-dark .place-description {
+            color: #b0b0b0;
+        }
+
+        .theme-dark .btn-primary {
+            background: var(--primary);
+            color: #121212;
+            box-shadow: 0 8px 16px rgba(76, 175, 80, 0.3);
+        }
+
+        .theme-dark .btn-primary:hover {
+            background: var(--accent);
+            color: #121212;
+            transform: translateY(-5px);
+        }
+
+        .theme-dark .btn-secondary {
+            background: #333;
+            color: #e0e0e0;
+        }
+
+        .theme-dark .btn-secondary:hover {
+            background: #444;
+        }
+
+        /* Add Nature Theme */
+        .theme-nature {
+            --primary: #388e3c;
+            --primary-dark: #1b5e20;
+            --secondary: #81c784;
+            --light: #f1f8f1;
+            --dark: #1b3e2e;
+            --accent: #ffb300;
+            --primary-rgb: 56, 142, 60;
+            --shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            --card-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+            --hover-shadow: 0 12px 24px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Color Scheme Options */
+        .color-nature {
+            background: linear-gradient(135deg, #388e3c, #1b5e20);
+        }
+
+        .color-dark {
+            background: linear-gradient(135deg, #424242, #212121);
+        }
+
+        /* Enhanced styling for dark theme elements */
+        .theme-dark .navbar,
+        .theme-dark .filters-container,
+        .theme-dark .place-card,
+        .theme-dark .pagination .page-link,
+        .theme-dark .no-results,
+        .theme-dark #color-scheme-selector,
+        .theme-dark .tours-section,
+        .theme-dark .tour-card {
+            background-color: #1e1e1e;
+            color: #e0e0e0;
+            border: 1px solid rgba(129, 199, 132, 0.1);
+        }
+
+        .theme-dark .navbar-links a {
+            color: #e0e0e0;
+        }
+
+        .theme-dark .place-category,
+        .theme-dark .tour-badge {
+            background: #333;
+            color: var(--secondary);
+        }
+
+        .theme-dark .place-card:hover,
+        .theme-dark .tour-card:hover {
+            box-shadow: 0 15px 30px rgba(76, 175, 80, 0.2);
+        }
+
+        .theme-dark .place-link,
+        .theme-dark h2,
+        .theme-dark h3,
+        .theme-dark .tab.active {
+            color: var(--primary);
+        }
+
+        .theme-dark .tab {
+            color: #e0e0e0;
+            border-bottom-color: #333;
+        }
+
+        .theme-dark .tabs {
+            border-bottom-color: #333;
+        }
+
+        .theme-dark .back-to-top {
+            background: var(--primary);
+            color: #121212;
+        }
+
+        .theme-dark .back-to-top:hover {
+            background: var(--accent);
+        }
+
+        .theme-dark .tour-time {
+            color: #aaa;
+        }
+
+        .theme-dark .search-box input,
+        .theme-dark .filter-group select,
+        .theme-dark .form-control {
+            background: #2d2d2d;
+            color: #e0e0e0;
+            border: 1px solid #444;
+        }
+
+        .theme-dark .search-box input:focus,
+        .theme-dark .filter-group select:focus {
+            border-color: var(--secondary);
+            outline: none;
+        }
+
+        .theme-dark .place-description {
+            color: #b0b0b0;
+        }
+
+        .theme-dark .btn-primary {
+            background: var(--primary);
+            color: #121212;
+            box-shadow: 0 8px 16px rgba(76, 175, 80, 0.3);
+        }
+
+        .theme-dark .btn-primary:hover {
+            background: var(--accent);
+            color: #121212;
+            transform: translateY(-5px);
+        }
+
+        .theme-dark .btn-secondary {
+            background: #333;
+            color: #e0e0e0;
+        }
+
+        .theme-dark .btn-secondary:hover {
+            background: #444;
+        }
+
+        /* Color scheme selector visual enhancement */
+        #color-scheme-selector {
+            position: fixed;
+            top: 100px;
+            right: 20px;
+            background: white;
+            padding: 12px;
+            border-radius: 50px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            z-index: 100;
+            display: flex;
+            flex-direction: row;
+            gap: 10px;
+        }
+
+        .theme-dark #color-scheme-selector {
+            background: #2d2d2d;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+            border: 1px solid rgba(129, 199, 132, 0.2);
+        }
+
+        .color-option {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            cursor: pointer;
+            border: 2px solid transparent;
+            transition: transform 0.3s, border 0.3s;
+        }
+
+        .color-option:hover {
+            transform: scale(1.2);
+        }
+
+        .color-option.active {
+            border-color: white;
+            transform: scale(1.2);
+        }
+
+        .theme-dark .color-option.active {
+            border-color: var(--accent);
+        }
+
+        /* Enhanced place card styling */
+        .theme-dark .place-card h3::after {
+            content: '';
+            display: block;
+            width: 40px;
+            height: 3px;
+            background: var(--secondary);
+            margin-top: 8px;
+            border-radius: 3px;
+        }
+
+        .theme-dark .faq-section h2,
+        .theme-dark .team-section h2,
+        .theme-dark .tours-section h2 {
+            color: var(--primary);
+            border-bottom-color: #333;
+        }
+
+        /* Language Switcher Styles */
+        .lang-nav-container {
+            display: flex;
+            align-items: center;
+            margin-left: 1.5rem;
+        }
+        
+        .global-lang-selector {
+            padding: 8px 35px 8px 12px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            background-color: white;
+            cursor: pointer;
+            font-size: 0.9rem;
+            min-width: 160px;
+            appearance: none;
+            -webkit-appearance: none;
+        }
+
+        .theme-dark .global-lang-selector {
+            background-color: #2d2d2d;
+            color: #e0e0e0;
+            border-color: #444;
+        }
+
+        .global-lang-selector:hover {
+            border-color: var(--primary);
+        }
+
+        .global-lang-selector:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 2px rgba(var(--primary-rgb), 0.1);
+        }
+        
+        /* Responsive styles */
+        @media (max-width: 768px) {
+            .navbar {
+                flex-direction: column;
+                padding: 1rem;
+            }
+            
+            .navbar-brand {
+                margin-bottom: 1rem;
+            }
+            
+            .filter-options {
+                flex-direction: column;
+            }
+            
+            #places-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .search-box {
+                flex-direction: column;
+            }
+            
+            .search-box input {
+                border-radius: 8px;
+                margin-bottom: 10px;
+            }
+            
+            .search-box button {
+                border-radius: 8px;
+            }
+            
+            .filter-buttons {
+                flex-direction: column;
+            }
+        }
+        
+        /* Tour Packages Section Styles */
+        .tours-section {
+            margin-top: 3rem;
+            background: white;
+            border-radius: 10px;
+            padding: 2rem;
+            box-shadow: var(--shadow);
+        }
+        
+        .tours-section h2 {
+            color: var(--primary);
+            font-size: 1.8rem;
+            margin-bottom: 1.5rem;
+            text-align: center;
+        }
+        
+        .tours-section h3 {
+            color: var(--primary);
+            font-size: 1.4rem;
+            margin: 1.5rem 0 1rem 0;
+            border-bottom: 2px solid #f0f0f0;
+            padding-bottom: 0.5rem;
+        }
+        
+        .tour-category {
+            margin-bottom: 2rem;
+        }
+        
+        .tour-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+        }
+        
+        .tour-card {
+            background: var(--light);
+            border-radius: 10px;
+            padding: 1.5rem;
+            transition: transform 0.3s, box-shadow 0.3s;
+            box-shadow: var(--card-shadow);
+        }
+        
+        .tour-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--hover-shadow);
+        }
+        
+        .tour-title {
+            font-size: 1.2rem;
+            color: var(--primary-dark);
+            margin-bottom: 0.8rem;
+            font-weight: bold;
+        }
+        
+        .tour-details {
+            margin-top: 1rem;
+            font-size: 0.9rem;
+            color: var(--dark);
+        }
+        
+        .tour-time {
+            margin-top: 0.5rem;
+            font-style: italic;
+            font-size: 0.85rem;
+            color: #666;
+        }
+        
+        .tour-badge {
+            display: inline-block;
+            background: var(--primary);
+            color: white;
+            font-size: 0.75rem;
+            padding: 0.3rem 0.7rem;
+            border-radius: 20px;
+            margin-bottom: 0.8rem;
+        }
+        
+        .tour-places {
+            margin-top: 0.8rem;
+            line-height: 1.5;
+        }
+        
+        /* Tabs for Tour Types */
+        .tabs {
+            display: flex;
+            margin-bottom: 1.5rem;
+            border-bottom: 1px solid #ddd;
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+        }
+        
+        .tab {
+            padding: 0.8rem 1.5rem;
+            cursor: pointer;
+            border-bottom: 3px solid transparent;
+            transition: all 0.3s;
+            white-space: nowrap;
+            font-weight: 500;
+        }
+        
+        .tab.active {
+            border-bottom-color: var(--primary);
+            color: var(--primary);
+        }
+        
+        .tab-content {
+            display: none;
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+        
+        /* Dark mode support for tours */
+        .theme-dark .tours-section,
+        .theme-dark .tour-card {
+            background: #1e1e1e;
+            color: #e0e0e0;
+        }
+        
+        .theme-dark .tour-time {
+            color: #aaa;
+        }
+        
+        .theme-dark .tour-badge {
+            background: var(--primary-dark);
+        }
+        
+        .theme-dark .tab {
+            color: #e0e0e0;
+        }
+        
+        .theme-dark .tab.active {
+            color: var(--primary);
+        }
+    </style>
+</head>
+<body class="theme-nature">
+    <!-- Color Scheme Selector -->
+    <div id="color-scheme-selector">
+        <div class="color-option color-nature active" data-theme="nature"></div>
+        <div class="color-option color-dark" data-theme="dark"></div>
+    </div>
+
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <a href="{{ url_for('home') }}" class="navbar-brand">
+            <i class="fas fa-map-marked-alt"></i> Salem Heritage
+        </a>
+        <ul class="navbar-links">
+            <li><a href="{{ url_for('home') }}" class="no-translate"><i class="fas fa-home"></i> Home</a></li>
+            <li><a href="{{ url_for('explore') }}" class="no-translate"><i class="fas fa-globe-asia"></i> Explore</a></li>
+            <li><a href="{{ url_for('about') }}" class="no-translate"><i class="fas fa-info-circle"></i> About</a></li>
+            <li><a href="{{ url_for('contact') }}" class="no-translate"><i class="fas fa-phone"></i> Contact</a></li>
+            <!-- Language switcher will be injected here -->
+        </ul>
+    </nav>
+
+    <div class="container">
+        <div class="header">
+            <h1><i class="fas fa-map-marked-alt"></i> Explore Tamil Nadu Heritage</h1>
+            <p>Discover the rich cultural heritage, ancient temples, historical monuments, and natural wonders of Tamil Nadu</p>
+        </div>
+
+        
+
+            
+        <!-- Places Grid -->
+        <div id="places-grid">
+            {% for place in places %}
+            <div class="place-card" 
+                 data-name="{{ place['Place Name'] }}" 
+                 data-district="{{ place.get('District', '') }}" 
+                 data-category="{{ place.get('Category', '') }}">
+                <div class="place-image">
+                    {% if place['Sub-Place Images'] and place['Sub-Place Images']|length > 0 %}
+                        <img src="{{ url_for('serve_updated_image', filename=place['Sub-Place Images'].split(', ')[0].strip().split('/')[-1]) }}" alt="{{ place['Place Name'] }}">
+                    {% else %}
+                        <img src="{{ url_for('serve_updated_image', filename='default.jpg') }}" alt="{{ place['Place Name'] }}">
+                    {% endif %}
+                </div>
+                <div class="place-details">
+                    <h3 class="place-name">{{ place['Place Name'] }}</h3>
+                    {% if place.get('Category') %}
+                    <span class="place-category">{{ place['Category'] }}</span>
+                    {% endif %}
+                    <p class="place-description">
+                        {{ place['Short Description'] if 'Short Description' in place and place['Short Description'] else place['Description'][:100] }}...
+                    </p>
+                    <a href="{{ url_for('place_details', place_name=place['Place Name']|replace(' ', '_')) }}" class="place-link">
+                        View Details <i class="fas fa-arrow-right"></i>
+                    </a>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+
+        <!-- No Results Message (Initially Hidden) -->
+        <div class="no-results" style="display: none;">
+            <i class="fas fa-search"></i>
+            <h3>No Places Found</h3>
+            <p>Please try different search criteria or reset the filters.</p>
+            <button class="btn btn-primary" id="reset-search"><i class="fas fa-undo"></i> Reset Search</button>
+        </div>
+
+        <!-- Pagination -->
+        <div class="pagination" id="pagination">
+            <!-- Pagination will be dynamically generated with JavaScript -->
+        </div>
+        
+        <!-- Tour Packages Section -->
+        <div class="tours-section">
+            <h2><i class="fas fa-route"></i> Tamil Nadu Tourism Tour Packages</h2>
+            
+            <!-- Tour Tabs -->
+            <div class="tabs">
+                <div class="tab active" data-tab="regular">Regular Tours</div>
+                <div class="tab" data-tab="optional">Optional Tours</div>
+                <div class="tab" data-tab="seasonal">Seasonal Special Tours</div>
+                <div class="tab" data-tab="ltc">LTC Tours</div>
+                <div class="tab" data-tab="rail">Rail Cum Road Tours</div>
+            </div>
+            
+            <!-- Regular Tours -->
+            <div class="tab-content active" id="regular-tours">
+                <h3>Regular Tours</h3>
+                <div class="tour-cards">
+                    <div class="tour-card">
+                        <div class="tour-badge">Half Day</div>
+                        <div class="tour-title">Chennai City Sight Seeing Tour</div>
+                        <div class="tour-time">Morning and evening on all days: 8.00 a.m. to 1.00 p.m. and 1.30 p.m. to 6.30 p.m.</div>
+                        <div class="tour-places">
+                            Places covered: Fort St. George, Government Museum, Valluvarkottam, Snake Park, Kapaleeswarar Temple and Marina Beach
+                        </div>
+                    </div>
+                    
+                    <div class="tour-card">
+                        <div class="tour-badge">One Day</div>
+                        <div class="tour-title">Mamallapuram Tour (Round Trip)</div>
+                        <div class="tour-time">On all days: 6.30 a.m. to 7.00 p.m.</div>
+                        <div class="tour-places">
+                            Places covered: Kancheepuram, Mamallapuram, Muttukadu Boating and V.G.P. Golden Beach
+                        </div>
+                    </div>
+                    
+                    <div class="tour-card">
+                        <div class="tour-badge">One Day</div>
+                        <div class="tour-title">Pondicherry Tour</div>
+                        <div class="tour-time">Saturday and Sunday: 6.30 a.m. to 9.00 p.m.</div>
+                        <div class="tour-places">
+                            Places covered: Pondicherry, Sri Aurobindo Ashram, Museum, Beach, Auroville, Boating at Mudaliar Kuppam
+                        </div>
+                    </div>
+                    
+                    <div class="tour-card">
+                        <div class="tour-badge">Six Days</div>
+                        <div class="tour-title">South India Tour</div>
+                        <div class="tour-time">Leaves Chennai on every Saturday at 7.00 a.m. and returns on Thursday 5.00 p.m.</div>
+                        <div class="tour-places">
+                            Places covered: Bangalore, Hosur, Srirangapatna, Brindavan Garden, Mysore, Mudumalai Wildlife Sanctuary, Ooty, and more
+                        </div>
+                    </div>
+                    
+                    <div class="tour-card">
+                        <div class="tour-badge">Eight Days</div>
+                        <div class="tour-title">Tamil Nadu Tour</div>
+                        <div class="tour-time">Leaves Chennai every Saturday at 7.00 a.m. and returns on Saturday 6.00 p.m.</div>
+                        <div class="tour-places">
+                            Places covered: Pondicherry, Pitchavaram, Chidambaram, Vaitheeswaran Koil, Nagore, Velankanni, and more
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Optional Tours -->
+            <div class="tab-content" id="optional-tours">
+                <h3>Optional Tours</h3>
+                <div class="tour-cards">
+                    <div class="tour-card">
+                        <div class="tour-badge">One Day</div>
+                        <div class="tour-title">Suruttapalli Tour</div>
+                        <div class="tour-time">All Pradosham days from 9.30 a.m. to 8.00 p.m.</div>
+                        <div class="tour-places">
+                            Places covered: Kakalur (Sri Anjaneyar), Thiruvallur (Sri Veeraraghava Perumal), Suruttapalli (Sri Pallikondeswarar)
+                        </div>
+                    </div>
+                    
+                    <div class="tour-card">
+                        <div class="tour-badge">One Day</div>
+                        <div class="tour-title">Sakthi Tour (Deviar Darshan)</div>
+                        <div class="tour-time">Every Tuesday, Friday, Sunday & Full Moondays: 7.00 a.m. to 7.00 p.m.</div>
+                        <div class="tour-places">
+                            Places covered: Mangadu (Kamatchi Amman), Thiruverkadu, Poonamallee, and other temples
+                        </div>
+                    </div>
+                    
+                    <div class="tour-card">
+                        <div class="tour-badge">Three Days</div>
+                        <div class="tour-title">Nava Tirupathigal (Thirunelveli) Tour</div>
+                        <div class="tour-time">Leaves Chennai on every First and Third Friday at 7.00 p.m. and returns by Monday 8.00 p.m.</div>
+                        <div class="tour-places">
+                            Places covered: SirVaikundam, Thirupulliankudi, Eratai Thirupathi, and more
+                        </div>
+                    </div>
+                    
+                    <div class="tour-card">
+                        <div class="tour-badge">Four Days</div>
+                        <div class="tour-title">Arupadai Veedu Tour (Lord Muruga Tour)</div>
+                        <div class="tour-time">Leaves Chennai on every Thursday at 7.00 a.m. and returns by Sunday 10.00 p.m.</div>
+                        <div class="tour-places">
+                            Places covered: Tiruthani, Swamimalai, Thanjavur, Tiruchendur, Madurai, Pazhamudhir solai, and more
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Seasonal Special Tours -->
+            <div class="tab-content" id="seasonal-tours">
+                <h3>Seasonal Special Tours</h3>
+                <div class="tour-cards">
+                    <div class="tour-card">
+                        <div class="tour-badge">3 Days</div>
+                        <div class="tour-title">Ooty Tour</div>
+                        <div class="tour-places">
+                            Enjoy the queen of hill stations with botanical gardens, Ooty lake, and more
+                        </div>
+                    </div>
+                    
+                    <div class="tour-card">
+                        <div class="tour-badge">3 Days</div>
+                        <div class="tour-title">Kodaikanal Tour</div>
+                        <div class="tour-places">
+                            Visit the princess of hill stations with beautiful lakes, waterfalls, and viewpoints
+                        </div>
+                    </div>
+                    
+                    <div class="tour-card">
+                        <div class="tour-badge">3 Days</div>
+                        <div class="tour-title">Yercaud - Hogenakkal Tour</div>
+                        <div class="tour-places">
+                            Explore Yercaud hill station and the magnificent Hogenakkal waterfalls
+                        </div>
+                    </div>
+                    
+                    <div class="tour-card">
+                        <div class="tour-badge">3 Days</div>
+                        <div class="tour-title">Courtallam Tour</div>
+                        <div class="tour-places">
+                            Visit the spa of South India with its therapeutic waterfalls and natural beauty
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- LTC Tours -->
+            <div class="tab-content" id="ltc-tours">
+                <h3>Leave Travel Concession Tours for Tamil Nadu State Government Employees</h3>
+                <div class="tour-cards">
+                    <div class="tour-card">
+                        <div class="tour-badge">5 Days</div>
+                        <div class="tour-title">Chidambaram - Poompuhar - Nagoor - Thanjavur - Madurai - Trichy Tour</div>
+                        <div class="tour-places">
+                            A comprehensive tour of important cultural and religious sites in Tamil Nadu
+                        </div>
+                    </div>
+                    
+                    <div class="tour-card">
+                        <div class="tour-badge">5 Days</div>
+                        <div class="tour-title">Thanjavur - Rameswaram - Kanniyakumari - Madurai Tour</div>
+                        <div class="tour-places">
+                            Visit the southernmost point of India along with other significant pilgrim centers
+                        </div>
+                    </div>
+                    
+                    <div class="tour-card">
+                        <div class="tour-badge">5 Days</div>
+                        <div class="tour-title">Thanjavur - Madurai - Kodaikanal - Palani - Trichy Tour</div>
+                        <div class="tour-places">
+                            A tour combining heritage, hill station, and religious places
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Rail Cum Road Tours -->
+            <div class="tab-content" id="rail-tours">
+                <h3>Rail Cum Road Tours</h3>
+                <div class="tour-cards">
+                    <div class="tour-card">
+                        <div class="tour-badge">4 Days</div>
+                        <div class="tour-title">Ooty Train Tour</div>
+                        <div class="tour-places">
+                            Experience the UNESCO heritage Nilgiri Mountain Railway along with Ooty sightseeing
+                        </div>
+                    </div>
+                    
+                    <div class="tour-card">
+                        <div class="tour-badge">11 Days</div>
+                        <div class="tour-title">Mumbai Tour</div>
+                        <div class="tour-places">
+                            Travel to Mumbai via train and explore the city of dreams with local sightseeing
+                        </div>
+                    </div>
+                    
+                    <div class="tour-card">
+                        <div class="tour-badge">11 Days</div>
+                        <div class="tour-title">Delhi Tour</div>
+                        <div class="tour-places">
+                            Visit the capital city and nearby attractions via train and road transport
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Back to Top Button -->
+    <div class="back-to-top" id="backToTop">
+        <i class="fas fa-arrow-up"></i>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Elements
+            const placeCards = document.querySelectorAll('.place-card');
+            const searchInput = document.getElementById('search-input');
+            const searchButton = document.getElementById('search-button');
+            const categoryFilter = document.getElementById('category-filter');
+            const districtFilter = document.getElementById('district-filter');
+            const sortFilter = document.getElementById('sort-filter');
+            const applyFiltersBtn = document.getElementById('apply-filters');
+            const resetFiltersBtn = document.getElementById('reset-filters');
+            const resetSearchBtn = document.getElementById('reset-search');
+            const placesGrid = document.getElementById('places-grid');
+            const noResultsMessage = document.querySelector('.no-results');
+            const paginationContainer = document.getElementById('pagination');
+            const advancedFilterSection = document.getElementById('advanced-filters');
+            const toggleAdvancedBtn = document.getElementById('toggle-advanced');
+            const advancedText = document.getElementById('advanced-text');
+            const itemsPerPage = 12;
+            let filteredPlaces = [...placeCards];
+            
+            // Apply filters and search
+            function applyFilters() {
+                const searchTerm = searchInput.value.toLowerCase();
+                const category = categoryFilter.value.toLowerCase();
+                const district = districtFilter.value.toLowerCase();
+                
+                // Filter places
+                filteredPlaces = [...placeCards].filter(card => {
+                    const name = card.getAttribute('data-name').toLowerCase();
+                    const cardDistrict = card.getAttribute('data-district').toLowerCase();
+                    const cardCategory = card.getAttribute('data-category').toLowerCase();
+                    
+                    const matchesSearch = name.includes(searchTerm);
+                    const matchesCategory = category === '' || cardCategory.includes(category);
+                    const matchesDistrict = district === '' || cardDistrict.includes(district);
+                    
+                    return matchesSearch && matchesCategory && matchesDistrict;
+                });
+                
+                // Sort places
+                const sortValue = sortFilter.value;
+                if (sortValue === 'name-asc') {
+                    filteredPlaces.sort((a, b) => {
+                        return a.getAttribute('data-name').localeCompare(b.getAttribute('data-name'));
+                    });
+                } else if (sortValue === 'name-desc') {
+                    filteredPlaces.sort((a, b) => {
+                        return b.getAttribute('data-name').localeCompare(a.getAttribute('data-name'));
+                    });
+                }
+                
+                // Handle no results
+                if (filteredPlaces.length === 0) {
+                    placesGrid.style.display = 'none';
+                    noResultsMessage.style.display = 'block';
+                    paginationContainer.style.display = 'none';
+                } else {
+                    placesGrid.style.display = 'grid';
+                    noResultsMessage.style.display = 'none';
+                    
+                    // Reset to first page when filters are applied
+                    currentPage = 1;
+                    displayPage(currentPage);
+                    setupPagination();
+                }
+            }
+            
+            // Display current page of results
+            function displayPage(page) {
+                const startIndex = (page - 1) * itemsPerPage;
+                const endIndex = startIndex + itemsPerPage;
+                const currentPageItems = filteredPlaces.slice(startIndex, endIndex);
+                
+                // Hide all place cards
+                placeCards.forEach(card => {
+                    card.style.display = 'none';
+                });
+                
+                // Show only the current page items
+                currentPageItems.forEach(card => {
+                    card.style.display = 'block';
+                });
+            }
+            
+            // Set up pagination
+            function setupPagination() {
+                const pageCount = Math.ceil(filteredPlaces.length / itemsPerPage);
+                paginationContainer.innerHTML = '';
+                
+                if (pageCount <= 1) {
+                    paginationContainer.style.display = 'none';
+                    return;
+                }
+                
+                paginationContainer.style.display = 'flex';
+                
+                // Previous button
+                const prevBtn = document.createElement('div');
+                prevBtn.className = 'page-item';
+                prevBtn.innerHTML = `<a class="page-link" href="#"><i class="fas fa-chevron-left"></i></a>`;
+                prevBtn.addEventListener('click', () => {
+                    if (currentPage > 1) {
+                        currentPage--;
+                        displayPage(currentPage);
+                        updateActivePage();
+                    }
+                });
+                paginationContainer.appendChild(prevBtn);
+                
+                // Page numbers
+                for (let i = 1; i <= pageCount; i++) {
+                    const pageItem = document.createElement('div');
+                    pageItem.className = 'page-item';
+                    if (i === currentPage) {
+                        pageItem.className += ' active';
+                    }
+                    pageItem.innerHTML = `<a class="page-link" href="#">${i}</a>`;
+                    pageItem.addEventListener('click', () => {
+                        currentPage = i;
+                        displayPage(currentPage);
+                        updateActivePage();
+                    });
+                    paginationContainer.appendChild(pageItem);
+                }
+                
+                // Next button
+                const nextBtn = document.createElement('div');
+                nextBtn.className = 'page-item';
+                nextBtn.innerHTML = `<a class="page-link" href="#"><i class="fas fa-chevron-right"></i></a>`;
+                nextBtn.addEventListener('click', () => {
+                    if (currentPage < pageCount) {
+                        currentPage++;
+                        displayPage(currentPage);
+                        updateActivePage();
+                    }
+                });
+                paginationContainer.appendChild(nextBtn);
+            }
+            
+            // Update active page in pagination
+            function updateActivePage() {
+                const pageItems = paginationContainer.querySelectorAll('.page-item');
+                pageItems.forEach((item, index) => {
+                    if (index === 0 || index === pageItems.length - 1) return; // Skip prev and next buttons
+                    
+                    if (index === currentPage) {
+                        item.classList.add('active');
+                    } else {
+                        item.classList.remove('active');
+                    }
+                });
+            }
+            
+            // Reset all filters and search
+            function resetAllFilters() {
+                searchInput.value = '';
+                categoryFilter.value = '';
+                districtFilter.value = '';
+                sortFilter.value = 'name-asc';
+                
+                filteredPlaces = [...placeCards];
+                currentPage = 1;
+                
+                displayPage(currentPage);
+                setupPagination();
+                
+                placesGrid.style.display = 'grid';
+                noResultsMessage.style.display = 'none';
+            }
+            
+            // Event listeners
+            searchButton.addEventListener('click', applyFilters);
+            applyFiltersBtn.addEventListener('click', applyFilters);
+            resetFiltersBtn.addEventListener('click', resetAllFilters);
+            resetSearchBtn.addEventListener('click', resetAllFilters);
+            
+            searchInput.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    applyFilters();
+                }
+            });
+            
+            // Back to top button
+            window.addEventListener('scroll', function() {
+                const backToTopButton = document.getElementById('backToTop');
+                if (window.scrollY > 300) {
+                    backToTopButton.classList.add('show');
+                } else {
+                    backToTopButton.classList.remove('show');
+                }
+            });
+            
+            document.getElementById('backToTop').addEventListener('click', function() {
+                window.scrollTo({
+                    top: 0,
+                    behavior: 'smooth'
+                });
+            });
+            
+            // Initialize page display
+            displayPage(currentPage);
+            setupPagination();
+            
+            // Initialize with purple theme
+            document.body.className = 'theme-purple';
+        });
+        
+        // Tab functionality for tour packages
+        document.addEventListener('DOMContentLoaded', function() {
+            const tabs = document.querySelectorAll('.tab');
+            const tabContents = document.querySelectorAll('.tab-content');
+            
+            tabs.forEach(tab => {
+                tab.addEventListener('click', () => {
+                    // Remove active class from all tabs and contents
+                    tabs.forEach(t => t.classList.remove('active'));
+                    tabContents.forEach(content => content.classList.remove('active'));
+                    
+                    // Add active class to clicked tab
+                    tab.classList.add('active');
+                    
+                    // Show corresponding content
+                    const tabId = tab.getAttribute('data-tab') + '-tours';
+                    document.getElementById(tabId).classList.add('active');
+                });
+            });
+        });
+
+        // Initialize with nature theme and add theme selector functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            // ...existing tab functionality code...
+            
+            // Load saved theme from localStorage if available
+            const savedTheme = localStorage.getItem('preferredTheme');
+            if (savedTheme && (savedTheme === 'nature' || savedTheme === 'dark')) {
+                document.body.className = `theme-${savedTheme}`;
+            } else {
+                document.body.className = 'theme-nature'; // Default theme
+            }
+            
+            // Add theme selector functionality
+            const colorOptions = document.querySelectorAll('.color-option');
+            colorOptions.forEach(option => {
+                // Update active state based on current theme
+                if (option.dataset.theme === savedTheme) {
+                    option.classList.add('active');
+                } else if (document.body.className === `theme-${option.dataset.theme}`) {
+                    option.classList.add('active');
+                }
+                
+                option.addEventListener('click', function() {
+                    // Remove active class from all options
+                    colorOptions.forEach(opt => opt.classList.remove('active'));
+                    
+                    // Add active class to clicked option
+                    this.classList.add('active');
+                    
+                    // Apply theme
+                    const theme = this.dataset.theme;
+                    document.body.className = `theme-${theme}`;
+                    
+                    // Save preference
+                    localStorage.setItem('preferredTheme', theme);
+                });
+            });
+        });
+    </script>
+    <!-- Load language script -->
+    <script src="{{ url_for('static', filename='js/language.js') }}"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Initialize language system
+            const savedLang = localStorage.getItem('preferredLanguage');
+            if (savedLang && savedLang !== 'en') {
+                console.log('Applying saved language:', savedLang);
+                setTimeout(() => {
+                    updateLanguageSelector(savedLang);
+                    translatePage(savedLang);
+                }, 500);
+            }
+        });
+    </script>
+</body>
+</html>

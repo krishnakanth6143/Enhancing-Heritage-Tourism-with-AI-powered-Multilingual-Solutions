@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Tamil Nadu Heritage{% endblock %}</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+    <style>
+        /* Language Switcher Styles */
+        .lang-nav-container {
+            display: flex;
+            align-items: center;
+            margin-left: 1.5rem;
+            position: relative;
+        }
+        
+        .global-lang-selector {
+            padding: 8px 28px 8px 12px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            background-color: white;
+            cursor: pointer;
+            font-size: 0.9rem;
+            min-width: 140px;
+            appearance: none;
+            -webkit-appearance: none;
+            background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+            background-repeat: no-repeat;
+            background-position: right 8px center;
+            background-size: 12px;
+        }
+
+        .theme-dark .global-lang-selector {
+            background-color: #2d2d2d;
+            color: #e0e0e0;
+            border-color: #444;
+        }
+
+        .global-lang-selector:hover {
+            border-color: var(--primary);
+        }
+
+        .global-lang-selector:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 2px rgba(var(--primary-rgb), 0.1);
+        }
+        
+        .global-lang-selector option {
+            padding: 8px;
+            font-size: 0.9rem;
+            background: white;
+            color: var(--dark);
+        }
+        
+        /* Dark theme support */
+        .theme-dark .global-lang-selector {
+            background-color: #2d2d2d;
+            color: #e0e0e0;
+            border-color: #444;
+        }
+        
+        .theme-dark .global-lang-selector option {
+            background-color: #2d2d2d;
+            color: #e0e0e0;
+        }
+        
+        .lang-nav-container i {
+            position: absolute;
+            left: 12px;
+            color: var(--primary);
+            pointer-events: none;
+        }
+        
+        @media (max-width: 768px) {
+            .lang-nav-container {
+                margin: 10px 0;
+                width: 100%;
+                justify-content: center;
+            }
+            
+            .global-lang-selector {
+                width: 100%;
+                max-width: 200px;
+            }
+        }
+        
+        .no-translate {
+            -webkit-translate: none;
+            translate: none;
+        }
+        
+        .theme-dark .global-lang-selector {
+            background-color: #2d2d2d;
+            color: #e0e0e0;
+            border-color: #444;
+        }
+        
+        .theme-dark .global-lang-selector option {
+            background-color: #2d2d2d;
+            color: #e0e0e0;
+        }
+        
+        /* Translation progress indicator */
+        .translation-progress {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: rgba(0,0,0,0.1);
+            z-index: 999;
+            display: none;
+            flex-direction: column;
+            align-items: center;
+        }
+        
+        .progress-bar {
+            height: 100%;
+            width: 0;
+            background: var(--primary);
+            transition: width 0.3s ease;
+        }
+        
+        .progress-text {
+            position: absolute;
+            top: 10px;
+            padding: 5px 10px;
+            background: var(--primary);
+            color: white;
+            border-radius: 4px;
+            font-size: 0.8rem;
+        }
+        
+        @media (max-width: 768px) {
+            .lang-nav-container {
+                margin-top: 10px;
+                margin-left: 0;
+            }
+        }
+    </style>
+    {% block additional_styles %}{% endblock %}
+</head>
+<body class="theme-nature">
+    <!-- Color Scheme Selector -->
+    <div id="color-scheme-selector">
+        <div class="color-option color-nature active" data-theme="nature" title="Nature Theme"></div>
+        <div class="color-option color-dark" data-theme="dark" title="Dark Theme"></div>
+    </div>
+
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <a href="{{ url_for('home') }}" class="navbar-brand no-translate">
+            <i class="fas fa-map-marked-alt"></i> Salem Heritage
+        </a>
+        <ul class="navbar-links">
+            <li><a href="{{ url_for('home') }}" class="no-translate"><i class="fas fa-home"></i> Home</a></li>
+            <li><a href="{{ url_for('explore') }}" class="no-translate"><i class="fas fa-globe-asia"></i> Explore</a></li>
+            <li><a href="{{ url_for('about') }}" class="no-translate"><i class="fas fa-info-circle"></i> About</a></li>
+            <li><a href="{{ url_for('contact') }}" class="no-translate"><i class="fas fa-phone"></i> Contact</a></li>
+            <!-- Language switcher will be injected here by JavaScript -->
+        </ul>
+    </nav>
+
+    {% block content %}
+    <!-- Content will be inserted by child templates -->
+    {% endblock %}
+
+    <!-- Back to Top Button -->
+    <div class="back-to-top" id="backToTop">
+        <i class="fas fa-arrow-up"></i>
+    </div>
+
+    <!-- Load shared scripts -->
+    <script src="{{ url_for('static', filename='js/language.js') }}"></script>
+    
+    <!-- Theme selector code -->
+    <script>
+        // Back to top button functionality
+        window.addEventListener('scroll', function() {
+            const backToTopButton = document.getElementById('backToTop');
+            if (window.scrollY > 300) {
+                backToTopButton.classList.add('show');
+            } else {
+                backToTopButton.classList.remove('show');
+            }
+        });
+
+        document.getElementById('backToTop').addEventListener('click', function() {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+        
+        // Fixed theme selector functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log("DOM loaded, initializing theme selector");
+            
+            // Load saved theme from localStorage if available
+            const savedTheme = localStorage.getItem('preferredTheme');
+            if (savedTheme && (savedTheme === 'nature' || savedTheme === 'dark')) {
+                document.body.className = `theme-${savedTheme}`;
+                console.log(`Applied saved theme: ${savedTheme}`);
+            } else {
+                document.body.className = 'theme-nature'; // Default theme
+                console.log("Applied default theme: nature");
+            }
+            
+            // Update active states
+            updateColorOptions();
+            
+            // Add theme selector functionality
+            const colorOptions = document.querySelectorAll('.color-option');
+            colorOptions.forEach(option => {
+                option.addEventListener('click', function(e) {
+                    console.log(`Theme option clicked: ${this.dataset.theme}`);
+                    
+                    // Apply theme
+                    const theme = this.dataset.theme;
+                    document.body.className = `theme-${theme}`;
+                    
+                    // Save preference
+                    localStorage.setItem('preferredTheme', theme);
+                    
+                    // Update active states
+                    updateColorOptions();
+                    
+                    // Prevent event bubbling
+                    e.stopPropagation();
+                });
+            });
+            
+            function updateColorOptions() {
+                const currentTheme = document.body.className.replace('theme-', '');
+                console.log(`Updating color options, current theme: ${currentTheme}`);
+                
+                // Remove active class from all options
+                document.querySelectorAll('.color-option').forEach(opt => {
+                    opt.classList.remove('active');
+                    console.log(`Removed active class from ${opt.dataset.theme}`);
+                });
+                
+                // Add active class to current theme option
+                const activeOption = document.querySelector(`.color-option.color-${currentTheme}`);
+                if (activeOption) {
+                    activeOption.classList.add('active');
+                    console.log(`Added active class to ${currentTheme}`);
+                }
+            }
+        });
+    </script>
+    
+    <!-- Initialize translation system -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Apply saved language if any
+            const savedLang = localStorage.getItem('preferredLanguage');
+            if (savedLang && savedLang !== 'en') {
+                updateLanguageSelector(savedLang);
+                translatePage(savedLang);
+            }
+        });
+    </script>
+    
+    {% block additional_scripts %}{% endblock %}
+</body>
+</html>
