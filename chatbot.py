@@ -7,7 +7,7 @@ import pandas as pd
 import numpy as np
 
 # API configuration
-API_KEY = "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"
+API_KEY = "OPENROUTER_API_KEY"
 API_URL = "https://openrouter.ai/api/v1/chat/completions"
 
 # Distance calculation between two geographic coordinates
