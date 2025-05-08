@@ -19,7 +19,7 @@ df = pd.read_csv(CSV_FILE, encoding="ISO-8859-1", on_bad_lines="skip")
 # Image directory (update based on your system)
 IMAGE_DIR = r"D:/tamilnadu_heritage/images"
 
-ORS_API_KEY = "5b3ce3597851110001cf62489b5be123c20140e7857d07eed928b7bb"  # Your OpenRouteService API Key
+ORS_API_KEY = "OPENROUTER_API_KEY"  # Your OpenRouteService API Key
 
 def get_nearby_places(user_lat, user_lon, max_distance_km=50):
     nearby_places = []
