@@ -1,4 +1,4 @@
-Below is a suggested README template for your repository:
+
 
 ---
 
