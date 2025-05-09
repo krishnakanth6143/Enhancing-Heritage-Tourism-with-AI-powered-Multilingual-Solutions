@@ -15,10 +15,23 @@
 ## 1. Introduction
 This project leverages AI and multilingual capabilities to enhance the experience of exploring heritage tourism. It provides users with an interactive platform to access cultural and historical information in multiple languages.
 
+![image](https://github.com/user-attachments/assets/c3b6f42c-0c1e-4ffc-aa8d-ed7fa559c557)
+
+![image](https://github.com/user-attachments/assets/ad6dcd41-f101-4118-af37-d42412635afd)
+
+
+---
+![image](https://github.com/user-attachments/assets/e5c97704-5979-484f-82fb-13cc0905d53b)
+---
+
+
 ### Key Features:
 - AI-driven recommendations and content generation.
 - Multilingual support for global accessibility.
 - User-friendly and interactive interface.
+
+![image](https://github.com/user-attachments/assets/5b3e3d6d-a0df-425c-868d-cb768e92e31f)
+
 
 ---
 
@@ -67,6 +80,8 @@ cd Enhancing-Heritage-Tourism-with-AI-powered-Multilingual-Solutions
 
 ### Multilingual Settings
 - Ensure the languages you want to support are defined in the configuration file (if applicable).
+
+![image](https://github.com/user-attachments/assets/c6dd5b90-28fd-4640-99ea-00dc67568b68)
 
 ---
 
