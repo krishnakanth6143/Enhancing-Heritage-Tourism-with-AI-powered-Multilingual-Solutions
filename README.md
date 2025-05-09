@@ -21,7 +21,8 @@ This project leverages AI and multilingual capabilities to enhance the experienc
 
 
 ---
-![image](https://github.com/user-attachments/assets/e5c97704-5979-484f-82fb-13cc0905d53b)
+![image](https://github.com/user-attachments/assets/3784c970-0986-4265-b874-7a5ee24beeb5)
+
 ---
 
 
